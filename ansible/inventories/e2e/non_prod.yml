@@ -25,6 +25,7 @@
 all:
   vars:
     ansible_ssh_common_args: '-o ProxyCommand="ssh -W %h:%p -q cloud-user@51.140.181.6"'
+    static_inventory: true
   children:
     ep:
       hosts:
