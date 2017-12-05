@@ -12,91 +12,128 @@
     azure_template_partial: true
     azure_location: "North Europe"
     azure_machine_spec:
-      aom2:
-        size: Standard_DS1_v2
-        os: rhel74
-        instances:
-          - hostname: "{{ azure_hostname_prefix }}aom21"
-            interfaces:
-              - subnet: app2subnet
-                ipv4: "10.100.2.21"
-                public_ip: false
-          - hostname: "{{ azure_hostname_prefix }}aom22"
-            interfaces:
-              - subnet: app2subnet
-                ipv4: "10.100.2.22"
-                public_ip: false
-          - hostname: "{{ azure_hostname_prefix }}aom23"
-            interfaces:
-              - subnet: app2subnet
-                ipv4: "10.100.2.23"
-                public_ip: false
-        disk_size_gb: 5
-      aom3:
+      aom4:
         size: Standard_E2s_v3
         os: rhel74
         instances:
-          - hostname: "{{ azure_hostname_prefix }}aom31"
+          - hostname: "{{ azure_hostname_prefix }}aom421"
             interfaces:
-              - subnet: app3subnet
-                ipv4: "10.100.3.21"
+              - subnet: app4subnet
+                ipv4: "10.100.4.21"
                 public_ip: false
-          - hostname: "{{ azure_hostname_prefix }}aom32"
+          - hostname: "{{ azure_hostname_prefix }}aom422"
             interfaces:
-              - subnet: app3subnet
-                ipv4: "10.100.3.22"
+              - subnet: app4subnet
+                ipv4: "10.100.4.22"
                 public_ip: false
-          - hostname: "{{ azure_hostname_prefix }}aom33"
+          - hostname: "{{ azure_hostname_prefix }}aon423"
             interfaces:
-              - subnet: app3subnet
-                ipv4: "10.100.3.23"
+              - subnet: app4subnet
+                ipv4: "10.100.4.23"
                 public_ip: false
-        disk_size_gb: 60
-      aon2:
-        size: Standard_DS1_v2
-        os: rhel74
-        instances:
-          - hostname: "{{ azure_hostname_prefix }}aon21"
-            interfaces:
-              - subnet: app2subnet
-                ipv4: "10.100.2.51"
-                public_ip: false
-          - hostname: "{{ azure_hostname_prefix }}aon22"
-            interfaces:
-              - subnet: app2subnet
-                ipv4: "10.100.2.52"
-                public_ip: false
-        disk_size_gb: 5
-      aon3:
+        disk_size_gb: 250
+      aon4:
         size: Standard_E2s_v3
         os: rhel74
         instances:
-          - hostname: "{{ azure_hostname_prefix }}aon31"
+          - hostname: "{{ azure_hostname_prefix }}aon451"
             interfaces:
-              - subnet: app3subnet
-                ipv4: "10.100.3.51"
+              - subnet: app4subnet
+                ipv4: "10.100.4.51"
                 public_ip: false
-          - hostname: "{{ azure_hostname_prefix }}aon32"
+          - hostname: "{{ azure_hostname_prefix }}aon452"
             interfaces:
-              - subnet: app3subnet
-                ipv4: "10.100.3.52"
+              - subnet: app4subnet
+                ipv4: "10.100.4.52"
                 public_ip: false
-        disk_size_gb: 60
-      ipa2:
-        size: Standard_DS1_v2
-        os: rhel74
-        instances:
-          - hostname: "{{ azure_hostname_prefix }}ipa21"
-            interfaces:
-              - subnet: app2subnet
-                ipv4: "10.100.2.11"
-                public_ip: false
-          - hostname: "{{ azure_hostname_prefix }}ipa22"
-            interfaces:
-              - subnet: app2subnet
-                ipv4: "10.100.2.12"
-                public_ip: false
-        disk_size_gb: 5
+        disk_size_gb: 250
+
+#    azure_machine_spec:
+#      aom2:
+#        size: Standard_DS1_v2
+#        os: rhel74
+#        instances:
+#          - hostname: "{{ azure_hostname_prefix }}aom21"
+#            interfaces:
+#              - subnet: app2subnet
+#                ipv4: "10.100.2.21"
+#                public_ip: false
+#          - hostname: "{{ azure_hostname_prefix }}aom22"
+#            interfaces:
+#              - subnet: app2subnet
+#                ipv4: "10.100.2.22"
+#                public_ip: false
+#          - hostname: "{{ azure_hostname_prefix }}aom23"
+#            interfaces:
+#              - subnet: app2subnet
+#                ipv4: "10.100.2.23"
+#                public_ip: false
+#        disk_size_gb: 5
+#      aom3:
+#        size: Standard_E2s_v3
+#        os: rhel74
+#        instances:
+#          - hostname: "{{ azure_hostname_prefix }}aom31"
+#            interfaces:
+#              - subnet: app3subnet
+#                ipv4: "10.100.3.21"
+#                public_ip: false
+#          - hostname: "{{ azure_hostname_prefix }}aom32"
+#            interfaces:
+#              - subnet: app3subnet
+#                ipv4: "10.100.3.22"
+#                public_ip: false
+#          - hostname: "{{ azure_hostname_prefix }}aom33"
+#            interfaces:
+#              - subnet: app3subnet
+#                ipv4: "10.100.3.23"
+#                public_ip: false
+#        disk_size_gb: 60
+#      aon2:
+#        size: Standard_DS1_v2
+#        os: rhel74
+#        instances:
+#          - hostname: "{{ azure_hostname_prefix }}aon21"
+#            interfaces:
+#              - subnet: app2subnet
+#                ipv4: "10.100.2.51"
+#                public_ip: false
+#          - hostname: "{{ azure_hostname_prefix }}aon22"
+#            interfaces:
+#              - subnet: app2subnet
+#                ipv4: "10.100.2.52"
+#                public_ip: false
+#        disk_size_gb: 5
+#      aon3:
+#        size: Standard_E2s_v3
+#        os: rhel74
+#        instances:
+#          - hostname: "{{ azure_hostname_prefix }}aon31"
+#            interfaces:
+#              - subnet: app3subnet
+#                ipv4: "10.100.3.51"
+#                public_ip: false
+#          - hostname: "{{ azure_hostname_prefix }}aon32"
+#            interfaces:
+#              - subnet: app3subnet
+#                ipv4: "10.100.3.52"
+#                public_ip: false
+#        disk_size_gb: 60
+#      ipa2:
+#        size: Standard_DS1_v2
+#        os: rhel74
+#        instances:
+#          - hostname: "{{ azure_hostname_prefix }}ipa21"
+#            interfaces:
+#              - subnet: app2subnet
+#                ipv4: "10.100.2.11"
+#                public_ip: false
+#          - hostname: "{{ azure_hostname_prefix }}ipa22"
+#            interfaces:
+#              - subnet: app2subnet
+#                ipv4: "10.100.2.12"
+#                public_ip: false
+#        disk_size_gb: 5
 
     azure_ssh_keys:
       - path: "/home/cloud-user/.ssh/authorized_keys"

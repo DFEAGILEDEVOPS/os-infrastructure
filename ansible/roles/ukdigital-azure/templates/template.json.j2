@@ -147,11 +147,13 @@
                         "createOption": "FromImage",
                         "caching": "ReadOnly",
                         "managedDisk": {
-                            "storageAccountType": "Standard_LRS"
-                        }
+                            "storageAccountType": "Premium_LRS"
+                        }{# , #}
+                        {# "diskSizeGB": 64 #}
                     },
                     "imageReference": {{ azure_os_choices[machine_spec.os] | to_nice_json(indent=4) }},
                     "dataDisks": [
+{% if machine_spec.disk_size_gb %}
                         {
                             "lun": 0,
                             "createOption": "Empty",
@@ -161,6 +163,7 @@
                             },
                             "diskSizeGB": {{ machine_spec.disk_size_gb }}
                         }
+{% endif %}
                     ]
                 },
                 "networkProfile": {

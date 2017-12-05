@@ -1,0 +1,40 @@
+#all: # keys must be unique, i.e. only one 'hosts' per group
+#    hosts:
+#        test1:
+#        test2:
+#            var1: value1
+#    vars:
+#        group_var1: value2
+#    children:   # key order does not matter, indentation does
+#        other_group:
+#            children:
+#                group_x:
+#                    hosts:
+#                        test5
+#            vars:
+#                g2_var2: value3
+#            hosts:
+#                test4:
+#                    ansible_host: 127.0.0.1
+#        last_group:
+#            hosts:
+#                test1 # same host as above, additional group membership
+#            vars:
+#                last_var: MYVALUE
+
+all:
+  vars:
+    ansible_ssh_common_args: '-o ProxyCommand="ssh -W %h:%p -q cloud-user@51.140.181.6"'
+  children:
+    ep:
+      hosts:
+        ukdigitalep01:
+          ansible_host: 10.100.254.4
+        ukdigitalep02:
+          ansible_host: 10.100.254.5
+    ipa:
+      hosts:
+        ukdigitalipa01:
+          ansible_host: 10.100.100.11
+        ukdigitalipa02:
+          ansible_host: 10.100.100.12

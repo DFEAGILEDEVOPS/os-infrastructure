@@ -98,6 +98,15 @@
                                 "storageAccountType": "Standard_LRS"
                             },
                             "diskSizeGB": {{ machine_spec.disk_size_gb }}
+                        },
+                        {
+                            "lun": 1,
+                            "createOption": "Empty",
+                            "caching": "ReadWrite",
+                            "managedDisk": {
+                                "storageAccountType": "Standard_LRS"
+                            },
+                            "diskSizeGB": {{ machine_spec.disk_size_gb }}
                         }
                     ]
                 },

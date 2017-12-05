@@ -36,7 +36,7 @@
 # Need to increase entropy as cloud providers generally don't have enough
 # and this leads to exceptionally lengthy or incomplete installs.
 - name: Install haveged
-  yum: name=http://195.220.108.108/linux/epel/7/x86_64/h/haveged-1.9.1-1.el7.x86_64.rpm 
+  yum: name=https://dl.fedoraproject.org/pub/epel/7/x86_64/Packages/h/haveged-1.9.1-1.el7.x86_64.rpm
        state=present
 
 - name: Start haveged

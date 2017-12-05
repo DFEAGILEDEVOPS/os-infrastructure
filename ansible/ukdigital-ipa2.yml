@@ -1,0 +1,12 @@
+
+- hosts: ipa
+  vars_prompt:
+    - name: "ipaserver_admin_password"
+      prompt: "Enter IPA server admin password"
+      private: yes
+    - name: "ipaserver_dir_mgmt_password"
+      prompt: "Enter IPA server directory manager password"
+      private: yes
+  roles:
+    - ipaserver
+  become: yes

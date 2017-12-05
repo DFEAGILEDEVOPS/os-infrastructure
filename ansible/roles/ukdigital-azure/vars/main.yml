@@ -2,7 +2,7 @@
 # vars file for ukdigital-azure
 
 # OpenShift resource group
-azure_resource_group: "OpenShiftV3_{{ env }}"
+azure_resource_group: "OpenShift_{{ env }}"
 
 # public keys
 azure_deployment_public_keys: []
@@ -643,23 +643,23 @@ azure_lb:
         backend: 443
         protocol: tcp
         probe: probe2
-  svcLB:
-    public_ip: false
-    private_ip: 10.100.254.13
-    subnet: dmz1subnet
-    probes:
-      - protocol: tcp
-        port: 80
-        name: probe1
-      - protocol: tcp
-        port: 443
-        name: probe2
-    ports:
-      - frontend: 80
-        backend: 80
-        protocol: tcp
-        probe: probe1
-      - frontend: 443
-        backend: 443
-        protocol: tcp
-        probe: probe2
+#  svcLB:
+#    public_ip: false
+#    private_ip: 10.100.254.13
+#    subnet: dmz1subnet
+#    probes:
+#      - protocol: tcp
+#        port: 80
+#        name: probe1
+#      - protocol: tcp
+#        port: 443
+#        name: probe2
+#    ports:
+#      - frontend: 80
+#        backend: 80
+#        protocol: tcp
+#        probe: probe1
+#      - frontend: 443
+#        backend: 443
+#        protocol: tcp
+#        probe: probe2
