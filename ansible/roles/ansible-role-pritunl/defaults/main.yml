@@ -1,0 +1,5 @@
+---
+pritunl_port: 443
+pritunl_mongodb_host: localhost
+pritunl_mongodb_port: 27017
+pritunl_log_path: /var/log/pritunl.log

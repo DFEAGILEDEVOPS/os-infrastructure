@@ -1,0 +1,57 @@
+---
+- name: Add Pritunl repository.
+  yum_repository:
+    name: pritunl
+    description: Pritunl Repository
+    baseurl: https://repo.pritunl.com/stable/yum/centos/7/
+    gpgcheck: no
+    
+- name: Add MongoDB repository.
+  yum_repository:
+    name: mongodb
+    description: MongoDB Repository
+    baseurl: https://repo.mongodb.org/yum/redhat/7/mongodb-org/3.4/x86_64/
+    gpgkey: https://www.mongodb.org/static/pgp/server-3.4.asc
+    gpgcheck: yes
+
+- name: Add EPEL repo.
+  yum_repository:
+    name: epel
+    description: epel Repository
+    baseurl: http://download.fedoraproject.org/pub/epel/7/$basearch
+    gpgcheck: no
+
+- name: Install MongoDB.
+  yum:
+    name: mongodb-org
+    
+
+- name: Install Pritunl
+  yum:
+    name: pritunl
+    enablerepo: epel,pritunl
+
+# - name: exec post install config
+#   shell: /bin/gpg --keyserver hkp://keyserver.ubuntu.com --recv-keys 7568D9BB55FF9E5287D586017AE645C0CF8E292A
+#   shell: /bin/gpg --armor --export 7568D9BB55FF9E5287D586017AE645C0CF8E292A > key.tmp; sudo rpm --import key.tmp; rm -f key.tmp
+
+- name: Copy pritunl config file.
+  template:
+    src: pritunl.conf.j2
+    dest: /etc/pritunl.conf
+  notify: restart pritunl
+   
+# 
+- name: Start mongodb and enable at boot
+  service: name=mongod state=started enabled=yes
+  when: ansible_connection != 'docker'
+
+# service
+- name: Ensure Pritunl is started and enabled to start at boot.
+  service: name=pritunl state=started enabled=yes
+  when: ansible_connection != 'docker'
+
+# clean up
+- name: Purge yum cache.
+  command: yum clean all
+  when: ansible_connection == 'docker'
