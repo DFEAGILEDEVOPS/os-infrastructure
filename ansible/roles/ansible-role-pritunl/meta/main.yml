@@ -1,0 +1,14 @@
+galaxy_info:
+  author: nigelmarett
+  description: Pritunl installation for RHEL.
+  company:
+  license: "license MIT"
+  min_ansible_version: 1.8
+  platforms:
+    - name: RHEL
+      versions:
+        - all
+  galaxy_tags: []
+
+dependencies:
+ 

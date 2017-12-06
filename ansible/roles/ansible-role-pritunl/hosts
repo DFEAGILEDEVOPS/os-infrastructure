@@ -1,0 +1,8 @@
+---
+#
+
+[ukdigital-ras]
+pritunl-test ansible_host=10.100.20.5 ansible_user=nigel ansible_become=true
+
+[ukdigital:children]
+ukdigital-ras
