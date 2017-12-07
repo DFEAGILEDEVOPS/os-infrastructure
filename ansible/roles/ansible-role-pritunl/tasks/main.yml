@@ -31,9 +31,24 @@
     name: pritunl
     enablerepo: epel,pritunl
 
-# - name: exec post install config
-#   shell: /bin/gpg --keyserver hkp://keyserver.ubuntu.com --recv-keys 7568D9BB55FF9E5287D586017AE645C0CF8E292A
-#   shell: /bin/gpg --armor --export 7568D9BB55FF9E5287D586017AE645C0CF8E292A > key.tmp; sudo rpm --import key.tmp; rm -f key.tmp
+# enable Firewall ports for Pritunl and Openvpn
+- firewalld:
+    service: http
+    permanent: true
+    state: enabled
+
+- firewalld:
+    service: https
+    permanent: true
+    state: enabled
+
+- firewalld:
+    service: openvpn
+    permanent: true
+    state: enabled
+
+- name: reload firewalld to pull in new rules.
+  service: name=firewalld state=restarted
 
 - name: Copy pritunl config file.
   template:
