@@ -41,6 +41,3 @@ all:
         ukdigitalipa02:
           ansible_host: 10.100.100.12
           iparole: slave
-#    ipa-masters:
-#      hosts:
-#        ukdigitalipa01
