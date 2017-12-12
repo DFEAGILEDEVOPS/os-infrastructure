@@ -3,7 +3,7 @@
 - name: Rendering partial azure resource template
   set_fact:
     azure_rendered_template: "{{ lookup('template', 'templates/partial_template.json.j2') }}"
-  when: not azure_check_mode
+  when: azure_check_mode == 'no'
   tags:
     - render
 
@@ -13,7 +13,7 @@
     dest: "./partialazuretemplate.json"
   tags:
     - render
-  when: azure_check_mode
+  when: azure_check_mode == 'yes'
 
 - name: Deploying template in {{ azure_resource_group }}
   azure_rm_deployment:
@@ -23,6 +23,6 @@
     template: "{{ azure_rendered_template }}"
     parameters: {}
     deployment_mode: incremental
-  when: not azure_check_mode
+  when: azure_check_mode == 'no'
   tags:
     - deploy

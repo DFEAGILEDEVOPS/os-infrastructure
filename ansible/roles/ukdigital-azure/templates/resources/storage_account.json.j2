@@ -1,0 +1,15 @@
+{% macro storage_account(name, location, display_name, account_type) -%}
+        {
+            "type": "Microsoft.Storage/storageAccounts",
+            "name": "{{ name }}",
+            "apiVersion": "2015-06-15",
+            "location": "{{ location }}",
+            "comments": "{{ display_name }}",
+            "tags": {
+                "displayName": "{{ display_name }}"
+            },
+            "properties": {
+                "accountType": "{{ account_type }}"
+            }
+        }
+{%- endmacro %}

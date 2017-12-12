@@ -3,13 +3,30 @@
 - name: Test DNS access in Azure
   include_tasks: dns.yml
 
-- name: Template infrastructure
-  include_tasks: template.yml
+- name: Template persisted data storage
+  include_tasks: persist_template.yml
   tags:
     - template
-    - estate
-  when: not azure_template_partial
+    - persist
+  when: not azure_template_partial and azure_deploy_part == 'persist'
 
+- name: Check keyvault facts
+  include_tasks: keyvault_facts.yml
+  tags:
+    - validate
+    - persist
+  when: not azure_template_partial and azure_deploy_part == 'validate'
+
+- name: Template infrastructure
+  include_tasks: infra_template.yml
+  tags:
+    - template
+    - infra
+  when: not azure_template_partial and azure_deploy_part == 'infra'
+
+# This partial template is mostly for experimentation
+# or for adding additional resources into a resource group without
+# removing pre-existing resources
 - name: Template partial infrastructure
   include_tasks: partial_template.yml
   tags:

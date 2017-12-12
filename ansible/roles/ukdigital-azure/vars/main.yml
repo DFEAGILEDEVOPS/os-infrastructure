@@ -2,7 +2,18 @@
 # vars file for ukdigital-azure
 
 # OpenShift resource group
-azure_resource_group: "OpenShift_{{ env }}"
+azure_persistent_resource_group: "OpenShift-persistent-{{ env }}"
+azure_resource_group: "OpenShift-infra-{{ env }}"
+
+
+# key vault things
+azure_ad_tenant: "850fb0fa-1e38-4247-a17b-ec99f97f20e9"
+azure_ansible_app_id: "48d236ee-2cf5-4016-ad9c-08ff7214f608"
+# Due to the 24char limit in Azure(FFS) one must do this mapping
+azure_keyvault_name_mapping:
+  prod: os-platform-facts-p
+  non-prod: os-platform-facts-np
+azure_keyvault_name: "{{ azure_keyvault_name_mapping[env] }}"
 
 # public keys
 azure_deployment_public_keys: []

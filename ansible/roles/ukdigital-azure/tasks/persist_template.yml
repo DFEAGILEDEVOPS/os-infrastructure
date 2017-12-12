@@ -1,0 +1,28 @@
+---
+
+- name: Rendering azure resource template
+  set_fact:
+    azure_rendered_template: "{{ lookup('template', 'templates/persist_template.json.j2') }}"
+  when: azure_check_mode == 'no'
+  tags:
+    - render
+
+- name: Also to file
+  template:
+    src: "templates/persist_template.json.j2"
+    dest: "./azuretemplate_persist.json"
+  tags:
+    - render
+  when: azure_check_mode == 'yes'
+
+- name: Deploying template in {{ azure_persistent_resource_group }}
+  azure_rm_deployment:
+    deployment_name: "persist_estate_{{ ansible_date_time.iso8601_basic_short }}"
+    location: "{{ azure_location }}"
+    resource_group: "{{ azure_persistent_resource_group }}"
+    template: "{{ azure_rendered_template }}"
+    parameters: {}
+    deployment_mode: complete
+  when: azure_check_mode == 'no'
+  tags:
+    - deploy

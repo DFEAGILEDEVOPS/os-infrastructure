@@ -1,0 +1,6 @@
+---
+
+- name: Get facts for one key vault
+  azure_custom_keyvault:
+    resource_group: "{{ azure_persistent_resource_group }}"
+    name: "os-platform-facts-np"

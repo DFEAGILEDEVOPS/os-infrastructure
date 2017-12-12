@@ -1,0 +1,55 @@
+{% macro key_vault(name, location, ad_tenant, app_id) -%}
+    {
+      "name": "{{ name }}",
+      "type": "Microsoft.KeyVault/vaults",
+      "apiVersion": "2016-10-01",
+      "location": "{{ location }}",
+      "tags": {},
+      "properties": {
+{#        "vaultUri": "string",#}
+        "tenantId": "{{ ad_tenant }}",
+        "sku": {
+          "family": "A",
+          "name": "standard"
+        },
+        "accessPolicies": [
+          {
+            "tenantId": "{{ ad_tenant }}",
+            "objectId": "{{ app_id }}",
+            "permissions": {
+{# These values are all possible options #}
+              "keys": [
+                "create",
+                "import", 
+                "update", 
+                "get", 
+                "list", 
+                "delete", 
+                "backup", 
+                "restore", 
+                "encrypt", 
+                "decrypt", 
+                "wrapkey", 
+                "unwrapkey", 
+                "sign",
+                "verify"
+              ],
+              "secrets": [
+                "get",
+                "set",
+                "list",
+                "delete"
+              ],
+              "certificates": [
+                "all"
+              ]
+            }
+          }
+        ],
+        "enabledForDeployment": true,
+        "enabledForDiskEncryption": true,
+        "enabledForTemplateDeployment": true,
+        "enableSoftDelete": true
+      }
+    }
+{%- endmacro %}

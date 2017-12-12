@@ -2,18 +2,18 @@
 
 - name: Rendering azure resource template
   set_fact:
-    azure_rendered_template: "{{ lookup('template', 'templates/template.json.j2') }}"
-  when: not azure_check_mode
+    azure_rendered_template: "{{ lookup('template', 'templates/infra_template.json.j2') }}"
+  when: azure_check_mode == 'no'
   tags:
     - render
 
 - name: Also to file
   template:
-    src: "templates/template.json.j2"
-    dest: "./azuretemplate.json"
+    src: "templates/infra_template.json.j2"
+    dest: "./azuretemplate_infra.json"
   tags:
     - render
-  when: azure_check_mode
+  when: azure_check_mode == 'yes'
 
 - name: Deploying template in {{ azure_resource_group }}
   azure_rm_deployment:
@@ -23,7 +23,7 @@
     template: "{{ azure_rendered_template }}"
     parameters: {}
     deployment_mode: complete
-  when: not azure_check_mode
+  when: azure_check_mode == 'no'
   tags:
     - deploy
 

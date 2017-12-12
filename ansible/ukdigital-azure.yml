@@ -9,8 +9,18 @@
       default: "default"
     - name: env
       prompt: Environment suffix
-      default: non_prod
+      default: non-prod
+      private: no
+    - name: azure_deploy_part
+      prompt: Deployment part - infra (Service infrastructure) or persist (Persistent storage and keyvault)
+      default: infra
+      private: no
+    - name: azure_check_mode
+      prompt: Run only in check mode?
+      default: yes
+      private: no
 
+# TODO: one must make sure persist exists before infra is run.
 
   vars:
     azure_machine_spec:
