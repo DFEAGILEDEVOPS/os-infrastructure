@@ -1,0 +1,39 @@
+{% macro role_assignment(name, location, depends_vm) -%}
+        {
+            "apiVersion": "2016-07-01",
+            "type": "Microsoft.Authorization/roleAssignments",
+            "name": "{{ name }}",
+            "dependsOn": [
+                "{{ depends_vm }}"
+            ],
+            "properties": {
+                "roleDefinitionId": "[variables('contributorRoleDefinitionId')]",
+                "principalId": "[reference(concat('Microsoft.Compute/virtualMachines/', variables('vmName')), '2017-03-30', 'Full').identity.principalId]"
+            }
+        }
+{% endmacro %}
+
+
+
+{% macro ext_msi(name, location, depends_vm, depends_role_assignment) -%}
+        {
+            "type": "Microsoft.Compute/virtualMachines/extensions",
+            "name": "{{ name }}",
+            "apiVersion": "2016-03-30",
+            "location": "[resourceGroup().location]",
+            "dependsOn": [
+                "{{ depends_vm }}",
+                "{{ depends_role_assignment }}"
+            ],
+            "properties": {
+                "publisher": "Microsoft.ManagedIdentity",
+                "type": "ManagedIdentityExtensionForLinux",
+                "typeHandlerVersion": "1.0",
+                "autoUpgradeMinorVersion": true,
+                "settings": {
+                    "port": 50342
+                },
+                "protectedSettings": {}
+            }
+        }
+{%- endmacro %}

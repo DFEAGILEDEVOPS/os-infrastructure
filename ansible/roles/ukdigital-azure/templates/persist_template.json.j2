@@ -1,5 +1,6 @@
 {% import 'resources/key_vault.json.j2' as res_kv %}
 {% import 'resources/storage_account.json.j2' as res_sa %}
+{% import 'resources/vnet.json.j2' as res_vnet %}
 {
     "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
@@ -15,7 +16,9 @@
 
 {{ res_sa.storage_account(name="[variables('dockerStorageAccountName')]", location=azure_location, display_name='Docker Storage', account_type='Standard_GRS') }},
 {{ res_sa.storage_account(name="[variables('diagStorageAccountName')]", location=azure_location, display_name='Diagnostics Storage', account_type='Standard_LRS') }},
-{{ res_sa.storage_account(name="[variables('deployStorageAccountName')]", location=azure_location, display_name='Deployment Storage', account_type='Standard_GRS') }}
+{{ res_sa.storage_account(name="[variables('deployStorageAccountName')]", location=azure_location, display_name='Deployment Storage', account_type='Standard_GRS') }},
+{{ res_vnet.vnet('main', location=azure_location) }},
+
 
     ],
     "outputs": {

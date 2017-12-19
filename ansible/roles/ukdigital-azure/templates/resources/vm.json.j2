@@ -1,0 +1,176 @@
+{% macro virtual_machine(machine_type, location, machine_spec, nsg_spec, ssh_keys, operating_system) -%}
+
+        {
+            "name": "{{ machine_type }}nsg",
+            "type": "Microsoft.Network/networkSecurityGroups",
+            "apiVersion": "2017-06-01",
+            "location": "{{ location }}",
+            "properties": {
+                "securityRules": {{ nsg_spec | to_nice_json(indent=4) }}
+            }
+        },
+
+        {
+          "type": "Microsoft.Compute/availabilitySets",
+          "name": "{{ machine_type }}AS",
+          "apiVersion": "2016-04-30-preview",
+          "location": "{{ location }}",
+          "properties": {
+            "platformFaultDomainCount": "2",
+            "platformUpdateDomainCount": "2",
+            "managed": "true"
+          }
+        },
+
+{% for instance in machine_spec.instances %}
+
+{% for interface in instance.interfaces %}
+
+{% if interface.public_ip %}
+        {
+            "name": "{{ instance.hostname }}pip{{ loop.index }}",
+            "type": "Microsoft.Network/publicIpAddresses",
+            "apiVersion": "2017-08-01",
+            "location": "{{ location }}",
+            "properties": {
+{% if interface.dns_name %}
+                "dnsSettings": {
+                  "domainNameLabel": "{{ interface.dns_name }}"
+                },
+{% endif %}
+                "publicIpAllocationMethod": "Static"
+            },
+            "sku": {
+                "name": "Basic"
+            }
+        },
+{% endif %}
+
+        {
+            "name": "{{ instance.hostname }}nic{{ loop.index }}",
+            "type": "Microsoft.Network/networkInterfaces",
+            "apiVersion": "2016-09-01",
+            "location": "{{ location }}",
+            "dependsOn": [
+{% if 'load_balancer' in machine_spec and loop.first %}
+                "Microsoft.Network/loadBalancers/{{ machine_spec.load_balancer }}",
+{% endif %}
+                "Microsoft.Network/virtualNetworks/main",
+{% if interface.public_ip %}
+                "Microsoft.Network/publicIpAddresses/{{ instance.hostname }}pip{{ loop.index }}",
+{% endif %}
+                "Microsoft.Network/networkSecurityGroups/{{ machine_type }}nsg"
+            ],
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "ipconfig{{ loop.index }}",
+                        "properties": {
+{% if 'load_balancer' in machine_spec and loop.first %}
+                            "loadBalancerBackendAddressPools": [
+                              {
+                                "id": "[concat(resourceId('Microsoft.Network/loadBalancers', '{{ machine_spec.load_balancer }}'), '/backendAddressPools/BackendPool')]"
+                              }
+                            ],
+{% endif %}
+                            "subnet": {
+                                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets/', 'main', '{{ interface.subnet }}')]"
+                            },
+                            "privateIPAllocationMethod": "Static",
+{% if interface.public_ip %}
+                            "publicIpAddress": {
+                                "id": "[resourceId('Microsoft.Network/publicIpAddresses', '{{ instance.hostname }}pip{{ loop.index }}')]"
+                            },
+{% endif %}
+                            "privateIpAddress": "{{ interface.ipv4 }}"
+                        }
+                    }
+                ],
+                "networkSecurityGroup": {
+                    "id": "[resourceId('Microsoft.Network/networkSecurityGroups', '{{ machine_type }}nsg')]"
+                }
+            }
+        },
+
+{% endfor %}
+
+        {
+            "type": "Microsoft.Compute/virtualMachines",
+            "name": "{{ instance.hostname }}",
+            "apiVersion": "2016-04-30-preview",
+            "location": "{{ location }}",
+            "properties": {
+                "hardwareProfile": {
+                    "vmSize": "{{ machine_spec.size }}"
+                },
+                "osProfile": {
+                    "computerName": "{{ instance.hostname }}",
+                    "adminUsername": "cloud-user",
+                    "linuxConfiguration": {
+                        "disablePasswordAuthentication": true,
+                        "ssh": {
+                            "publicKeys": {{ ssh_keys | to_nice_json(indent=4) }}
+                        }
+                    },
+                    "secrets": []
+                },
+                "storageProfile": {
+                    "osDisk": {
+                        "createOption": "FromImage",
+                        "caching": "ReadOnly",
+                        "managedDisk": {
+                            "storageAccountType": "Premium_LRS"
+                        }{# , #}
+                        {# "diskSizeGB": 64 #}
+                    },
+                    "imageReference": {{ operating_system | to_nice_json(indent=4) }},
+                    "dataDisks": [
+{% if machine_spec.disk_size_gb %}
+                        {
+                            "lun": 0,
+                            "createOption": "Empty",
+                            "caching": "ReadWrite",
+                            "managedDisk": {
+                                "storageAccountType": "Standard_LRS"
+                            },
+                            "diskSizeGB": {{ machine_spec.disk_size_gb }}
+                        }
+{% endif %}
+                    ]
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+{%for interface in instance.interfaces %}
+                        {
+                            "properties": {
+                              "primary": {% if loop.index == 1 %}true{% else %}false{% endif %}
+                            },
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', '{{ instance.hostname }}nic{{ loop.index }}')]"
+                        }{% if not loop.last %},{% endif %}
+{% endfor %}
+                    ]
+                },
+                "availabilitySet": {
+                    "id": "[resourceId('Microsoft.Compute/availabilitySets', '{{ machine_type }}AS')]"
+                },
+                "diagnosticsProfile": {
+                    "bootDiagnostics": {
+                        "enabled": true,
+                        "storageUri": "[concat('http://', variables('diagStorageAccountName'), '.blob.core.windows.net')]"
+                    }
+                }{#,
+                "identity": {
+                    "type": "systemAssigned"
+                }#}
+            },
+            "dependsOn": [
+                "Microsoft.Compute/availabilitySets/{{ machine_type }}AS",
+{% for interface in instance.interfaces %}
+                "[resourceId('Microsoft.Network/networkInterfaces', '{{ instance.hostname }}nic{{ loop.index }}')]"{% if not loop.last %},{% endif %}
+{% endfor %}
+            ]
+        }{% if not loop.last %},{% endif %}
+
+{% endfor %}
+
+{%- endmacro %}

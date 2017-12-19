@@ -1,10 +1,15 @@
-{% macro public_ip(name, location) -%}
+{% macro public_ip(name, location, dns_name='') -%}
     {
         "name": "{{ name }}",
         "type": "Microsoft.Network/publicIpAddresses",
         "location": "{{ location }}",
         "apiVersion": "2017-08-01",
         "properties": {
+{% if dns_name %}
+            "dnsSettings": {
+              "domainNameLabel": "{{ dns_name }}"
+            },
+{% endif %}
             "publicIpAllocationMethod": "Static"
         },
         "sku": {

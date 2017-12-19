@@ -34,46 +34,47 @@
       l_is_atomic: "{{ ostree_booted.stat.exists }}"
   - set_fact:
       l_is_containerized: "{{ (l_is_atomic | bool) or (containerized | default(false) | bool) }}"
-  - name: Enable rhel 7 server extras rpms
-    action: command subscription-manager repos --enable=rhel-7-server-extras-rpms
-    when: not l_is_atomic | bool
-  - name: Install httpd-tools
-    yum: name=httpd-tools state=latest
-    when: not l_is_atomic | bool
-  - name: Install Cockpit
-    yum: name=cockpit state=latest
-    when: not l_is_atomic | bool
-  - name: Start Cockpit
-    service: name=cockpit state=started enabled=yes
-  - name: Create root ssh key on master
-    command: ssh-keygen -f /root/.ssh/id_rsa -N '' creates=/root/.ssh/id_rsa
-    when: inventory_hostname == groups['masters'][0]
-  - name: Copy master root public key
-    command: cat /root/.ssh/id_rsa.pub
-    register: copy_master
-    when: inventory_hostname == groups['masters'][0]
-  - name: Register master root public key
-    set_fact:
-      root_pub_key: "{{ copy_master.stdout }}"
-    when: copy_master.changed
-  - name: Create /root/.ssh directory
-    file: path=/root/.ssh state=directory mode=0700
-  - name: Create /root/.ssh/authorized_keys file
-    file: path=/root/.ssh/authorized_keys state=touch mode=0600
-  - name: Check authorized_keys
-    command: cat /root/.ssh/authorized_keys
-    register: authorized_keys
-  - name: Authorize master root public key
-    shell: >
-      echo "{{ hostvars[groups['masters'][0]]['root_pub_key'] }}" >> /root/.ssh/authorized_keys
-    when: authorized_keys.stdout.find("{{ hostvars[groups['masters'][0]]['root_pub_key'] }}") == -1
-  - name: Manually update /etc/resolv.conf to use internal DNS
-    copy:
-      src=files/resolv.conf dest=/etc/resolv.conf
+#  - name: Enable rhel 7 server extras rpms
+#    action: command subscription-manager repos --enable=rhel-7-server-extras-rpms
+#    when: not l_is_atomic | bool
+#  - name: Install httpd-tools
+#    yum: name=httpd-tools state=latest
+#    when: not l_is_atomic | bool
+#  - name: Install Cockpit
+#    yum: name=cockpit state=latest
+#    when: not l_is_atomic | bool
+#  - name: Start Cockpit
+#    service: name=cockpit state=started enabled=yes
+#  - name: Create root ssh key on master
+#    command: ssh-keygen -f /root/.ssh/id_rsa -N '' creates=/root/.ssh/id_rsa
+#    when: inventory_hostname == groups['masters'][0]
+#  - name: Copy master root public key
+#    command: cat /root/.ssh/id_rsa.pub
+#    register: copy_master
+#    when: inventory_hostname == groups['masters'][0]
+#  - name: Register master root public key
+#    set_fact:
+#      root_pub_key: "{{ copy_master.stdout }}"
+#    when: copy_master.changed
+#  - name: Create /root/.ssh directory
+#    file: path=/root/.ssh state=directory mode=0700
+#  - name: Create /root/.ssh/authorized_keys file
+#    file: path=/root/.ssh/authorized_keys state=touch mode=0600
+#  - name: Check authorized_keys
+#    command: cat /root/.ssh/authorized_keys
+#    register: authorized_keys
+#  - name: Authorize master root public key
+#    shell: >
+#      echo "{{ hostvars[groups['masters'][0]]['root_pub_key'] }}" >> /root/.ssh/authorized_keys
+#    when: authorized_keys.stdout.find("{{ hostvars[groups['masters'][0]]['root_pub_key'] }}") == -1
+#  - name: Manually update /etc/resolv.conf to use internal DNS
+#    copy:
+#      src=files/resolv.conf dest=/etc/resolv.conf
 
 - import_playbook: ../../../openshift-ansible/playbooks/byo/config.yml
   vars:
-    openshift_release: 3.6
+    openshift_version: 3.6.1
+    openshift_release: v3.6
     g_etcd_hosts:   "{{ groups.etcd | default([]) }}"
     g_lb_hosts:     "{{ groups.lb | default([]) }}"
     g_master_hosts: "{{ groups.masters | default([]) }}"
@@ -89,8 +90,8 @@
     openshift_debug_level: "{{ debug_level | default(2) }}"
     openshift_deployment_type: "{{ deployment_type }}"
 
-#- hosts: all
-#  tasks:
+- hosts: masters
+  tasks:
 #  - name: Accept tcp:9090 for Cockpit
 #    command: >
 #      iptables -A OS_FIREWALL_ALLOW -p tcp -m state --state NEW -m tcp --dport
@@ -107,10 +108,7 @@
 #    when: "'masters' in group_names"
 #  - name: Restart atomic-openshift-master-api
 #    service: name=atomic-openshift-master-api state=restarted enabled=yes
-#    when: "'masters' in group_names"
 #  - name: Restart atomic-openshift-master-controllers
 #    service: name=atomic-openshift-master-controllers state=restarted enabled=yes
-#    when: "'masters' in group_names"
-#  - name: Create user admin
-#    command: htpasswd -b /etc/origin/master/htpasswd admin admin
-#    when: "'masters' in group_names"
+  - name: Create user admin
+    command: htpasswd -b /etc/origin/master/htpasswd admin admin

@@ -11,14 +11,14 @@ azure_ad_tenant: "850fb0fa-1e38-4247-a17b-ec99f97f20e9"
 azure_ansible_app_id: "48d236ee-2cf5-4016-ad9c-08ff7214f608"
 # Due to the 24char limit in Azure(FFS) one must do this mapping
 azure_keyvault_name_mapping:
-  prod: os-platform-facts-p
-  non-prod: os-platform-facts-np
+  prod: os-platform-prod
+  non-prod: os-platform-np
 azure_keyvault_name: "{{ azure_keyvault_name_mapping[env] }}"
 
 # public keys
 azure_deployment_public_keys: []
 
-azure_hostname_prefix: ukdigital
+azure_hostname_prefix: ''
 
 azure_os_choices:
   rhel73:
@@ -612,6 +612,7 @@ azure_nsg:
 azure_lb:
   epLB:
     public_ip: true
+    dns_name: "os-ep-{{env}}"
     private_ip: 10.100.254.11
     subnet: dmz1subnet
     probes:
@@ -636,6 +637,7 @@ azure_lb:
         probe: false
   appLB:
     public_ip: true
+    dns_name: "os-app-{{env}}"
     private_ip: 10.100.254.12
     subnet: dmz1subnet
     probes:
@@ -645,6 +647,9 @@ azure_lb:
       - protocol: tcp
         port: 443
         name: probe2
+      - protocol: tcp
+        port: 8443
+        name: probe3
     ports:
       - frontend: 80
         backend: 80
@@ -654,6 +659,10 @@ azure_lb:
         backend: 443
         protocol: tcp
         probe: probe2
+      - frontend: 8443
+        backend: 8443
+        protocol: tcp
+        probe: probe3
 #  svcLB:
 #    public_ip: false
 #    private_ip: 10.100.254.13

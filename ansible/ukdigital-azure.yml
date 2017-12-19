@@ -34,11 +34,13 @@
               - subnet: dmz1subnet
                 ipv4: "10.100.254.4"
                 public_ip: true
+                dns_name: "os-ep01-{{env}}"
           - hostname: "{{ azure_hostname_prefix }}ep02"
             interfaces:
               - subnet: dmz1subnet
                 ipv4: "10.100.254.5"
                 public_ip: true
+                dns_name: "os-ep02-{{env}}"
         disk_size_gb: 0
 #      ns:
 #        size: Standard_DS1_v2

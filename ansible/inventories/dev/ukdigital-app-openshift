@@ -31,37 +31,38 @@ etcd
 
 [OSEv3:vars]
 
-openshift_disable_check=disk_availability,docker_storage
+openshift_disable_check=disk_availability,docker_storage,docker_image_availability
 
-openshift_master_cluster_public_hostname=demo.dfe.secnix.co.uk
+openshift_master_cluster_public_hostname=os-app-non-prod.uksouth.cloudapp.azure.com
 
 ansible_become=true
-openshift_deployment_type=openshift-enterprise
+openshift_deployment_type=origin
+deployment_type=origin
 containerized=true
 openshift_clock_enabled=true
 os_sdn_network_plugin_name='redhat/openshift-ovs-multitenant'
 
 openshift_master_cluster_method=native
-openshift_master_cluster_hostname=ukdigitalapp.paas.education.gov.uk.test
-#openshift_master_cluster_public_hostname=ukdigitalapp.paas.education.gov.uk.test
+openshift_master_cluster_hostname=app.4xauinxnfpwe3ojzckfgkzbvjc.zx.internal.cloudapp.net
+#openshift_master_cluster_public_hostname=app.4xauinxnfpwe3ojzckfgkzbvjc.zx.internal.cloudapp.net
 
-openshift_master_default_subdomain=paas.education.gov.uk
+openshift_master_default_subdomain=4lceuyc4wufudb5iqljp0dyp4b.zx.internal.cloudapp.net
 openshift_master_identity_providers=[{'name': 'htpasswd_auth', 'login': 'true', 'challenge': 'true', 'kind': 'HTPasswdPasswordIdentityProvider', 'filename': '/etc/origin/master/htpasswd'}]
 
 [masters]
-ukdigitalaom01.paas.education.gov.uk.test openshift_hostname=ukdigitalaom01.paas.education.gov.uk.test openshift_public_hostname=ukdigitalaom01.paas.education.gov.uk.test ansible_host=10.100.1.21
-ukdigitalaom02.paas.education.gov.uk.test openshift_hostname=ukdigitalaom02.paas.education.gov.uk.test openshift_public_hostname=ukdigitalaom02.paas.education.gov.uk.test ansible_host=10.100.1.22
-ukdigitalaom03.paas.education.gov.uk.test openshift_hostname=ukdigitalaom02.paas.education.gov.uk.test openshift_public_hostname=ukdigitalaom03.paas.education.gov.uk.test ansible_host=10.100.1.23
+aom01.4xauinxnfpwe3ojzckfgkzbvjc.zx.internal.cloudapp.net openshift_hostname=aom01.4xauinxnfpwe3ojzckfgkzbvjc.zx.internal.cloudapp.net openshift_public_hostname=aom01.4xauinxnfpwe3ojzckfgkzbvjc.zx.internal.cloudapp.net ansible_host=10.100.1.21
+aom02.4xauinxnfpwe3ojzckfgkzbvjc.zx.internal.cloudapp.net openshift_hostname=aom02.4xauinxnfpwe3ojzckfgkzbvjc.zx.internal.cloudapp.net openshift_public_hostname=aom02.4xauinxnfpwe3ojzckfgkzbvjc.zx.internal.cloudapp.net ansible_host=10.100.1.22
+aom03.4xauinxnfpwe3ojzckfgkzbvjc.zx.internal.cloudapp.net openshift_hostname=aom02.4xauinxnfpwe3ojzckfgkzbvjc.zx.internal.cloudapp.net openshift_public_hostname=aom03.4xauinxnfpwe3ojzckfgkzbvjc.zx.internal.cloudapp.net ansible_host=10.100.1.23
 
 [etcd]
-ukdigitalaom01.paas.education.gov.uk.test ansible_host=10.100.1.21
-ukdigitalaom02.paas.education.gov.uk.test ansible_host=10.100.1.22
-ukdigitalaom03.paas.education.gov.uk.test ansible_host=10.100.1.23
+aom01.4xauinxnfpwe3ojzckfgkzbvjc.zx.internal.cloudapp.net ansible_host=10.100.1.21
+aom02.4xauinxnfpwe3ojzckfgkzbvjc.zx.internal.cloudapp.net ansible_host=10.100.1.22
+aom03.4xauinxnfpwe3ojzckfgkzbvjc.zx.internal.cloudapp.net ansible_host=10.100.1.23
 
 [nodes]
-ukdigitalaom01.paas.education.gov.uk.test ansible_host=10.100.1.21 openshift_hostname=ukdigitalaom01.paas.education.gov.uk.test openshift_public_hostname=ukdigitalaom01.paas.education.gov.uk.test openshift_node_labels="{'region': 'infra', 'zone': 'region1'}"
-ukdigitalaom02.paas.education.gov.uk.test ansible_host=10.100.1.22 openshift_hostname=ukdigitalaom02.paas.education.gov.uk.test openshift_public_hostname=ukdigitalaom02.paas.education.gov.uk.test openshift_node_labels="{'region': 'infra', 'zone': 'region2'}"
-ukdigitalaom03.paas.education.gov.uk.test ansible_host=10.100.1.23 openshift_hostname=ukdigitalaom03.paas.education.gov.uk.test openshift_public_hostname=ukdigitalaom03.paas.education.gov.uk.test openshift_node_labels="{'region': 'infra', 'zone': 'region1'}"
+aom01.4xauinxnfpwe3ojzckfgkzbvjc.zx.internal.cloudapp.net ansible_host=10.100.1.21 openshift_hostname=aom01.4xauinxnfpwe3ojzckfgkzbvjc.zx.internal.cloudapp.net openshift_public_hostname=aom01.4xauinxnfpwe3ojzckfgkzbvjc.zx.internal.cloudapp.net openshift_node_labels="{'region': 'infra', 'zone': 'region1'}"
+aom02.4xauinxnfpwe3ojzckfgkzbvjc.zx.internal.cloudapp.net ansible_host=10.100.1.22 openshift_hostname=aom02.4xauinxnfpwe3ojzckfgkzbvjc.zx.internal.cloudapp.net openshift_public_hostname=aom02.4xauinxnfpwe3ojzckfgkzbvjc.zx.internal.cloudapp.net openshift_node_labels="{'region': 'infra', 'zone': 'region2'}"
+aom03.4xauinxnfpwe3ojzckfgkzbvjc.zx.internal.cloudapp.net ansible_host=10.100.1.23 openshift_hostname=aom03.4xauinxnfpwe3ojzckfgkzbvjc.zx.internal.cloudapp.net openshift_public_hostname=aom03.4xauinxnfpwe3ojzckfgkzbvjc.zx.internal.cloudapp.net openshift_node_labels="{'region': 'infra', 'zone': 'region1'}"
 
-ukdigitalaon01.paas.education.gov.uk.test ansible_host=10.100.1.51 openshift_hostname=ukdigitalaon01.paas.education.gov.uk.test openshift_node_labels="{'region': 'primary', 'zone': 'region1'}"
-ukdigitalaon02.paas.education.gov.uk.test ansible_host=10.100.1.52 openshift_hostname=ukdigitalaon02.paas.education.gov.uk.test openshift_node_labels="{'region': 'primary', 'zone': 'region2'}"
+aon01.4xauinxnfpwe3ojzckfgkzbvjc.zx.internal.cloudapp.net ansible_host=10.100.1.51 openshift_hostname=aon01.4xauinxnfpwe3ojzckfgkzbvjc.zx.internal.cloudapp.net openshift_node_labels="{'region': 'primary', 'zone': 'region1'}"
+aon02.4xauinxnfpwe3ojzckfgkzbvjc.zx.internal.cloudapp.net ansible_host=10.100.1.52 openshift_hostname=aon02.4xauinxnfpwe3ojzckfgkzbvjc.zx.internal.cloudapp.net openshift_node_labels="{'region': 'primary', 'zone': 'region2'}"
