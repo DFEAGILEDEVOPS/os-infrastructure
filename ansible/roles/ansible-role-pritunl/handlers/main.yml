@@ -2,3 +2,5 @@
 - name: restart pritunl
   service: name=pritunl state=restarted
   when: ansible_connection != 'docker'
+- name: reload firewalld
+  service: name=firewalld state=restarted

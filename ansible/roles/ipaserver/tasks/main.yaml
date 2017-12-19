@@ -47,13 +47,13 @@
   with_items: "{{ ipaserver_packages }}"
 
 - name: Remove hostname resolving to 127.0.0.1
-  lineinfile: dest=/etc/hosts regexp='^127\.0\.0\.1\s+{{ ansible_hostname }}.{{ ipaserver_domain }}' 
+  lineinfile: dest=/etc/hosts regexp='^127\.0\.0\.1\s+{{ ansible_hostname }}'
               state=absent
 
 - name: Insert IPA server hosts entry
   lineinfile: dest=/etc/hosts regexp="^{{ hostvars[item]['ansible_host'] }}" 
               line="{{ hostvars[item]['ansible_host'] }}\t{{ hostvars[item]['inventory_hostname'] }}.{{ ipaserver_domain }}\t{{ hostvars[item]['ansible_hostname'] }}"
-  with_items: "{{ groups['ukdigital-mgmt-ipa'] }}"
+  with_items: "{{ groups['ipa'] }}"
 
 - include: master.yaml
   when: "hostvars[inventory_hostname]['iparole'] == 'master'"
@@ -69,4 +69,3 @@
   when: "hostvars[inventory_hostname]['iparole'] == 'replica'"
   tags:
     - replicas
-
