@@ -13,3 +13,7 @@
             }
         }
 {%- endmacro %}
+
+{% macro storage_account_url(name) -%}[concat('http://', {{ name }} ,'.blob.core.windows.net')]{%- endmacro %}
+
+{% macro depends_storage_account(name) -%}[concat('Microsoft.Storage/storageAccounts/', {{ name }})]{%- endmacro %}

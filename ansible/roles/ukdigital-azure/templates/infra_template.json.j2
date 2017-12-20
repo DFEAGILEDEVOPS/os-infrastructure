@@ -48,7 +48,9 @@
         machine_spec=machine_spec,
         nsg_spec=azure_nsg[machine_type],
         operating_system=azure_os_choices[machine_spec.os],
-        ssh_keys=azure_ssh_keys
+        ssh_keys=azure_ssh_keys,
+        diag_storage_url=res_sa.storage_account_url("variables('diagStorageAccountName')"),
+        depends_diag_storage=res_sa.depends_storage_account("variables('diagStorageAccountName')")
    )
 }}
 {% if not loop.last %},{% endif %}

@@ -1,4 +1,4 @@
-{% macro virtual_machine(machine_type, location, machine_spec, nsg_spec, ssh_keys, operating_system) -%}
+{% macro virtual_machine(machine_type, location, machine_spec, nsg_spec, ssh_keys, operating_system, diag_storage_url, depends_diag_storage) -%}
 
         {
             "name": "{{ machine_type }}nsg",
@@ -156,7 +156,7 @@
                 "diagnosticsProfile": {
                     "bootDiagnostics": {
                         "enabled": true,
-                        "storageUri": "[concat('http://', variables('diagStorageAccountName'), '.blob.core.windows.net')]"
+                        "storageUri": "{{ diag_storage_url }}"
                     }
                 }{#,
                 "identity": {
@@ -165,6 +165,7 @@
             },
             "dependsOn": [
                 "Microsoft.Compute/availabilitySets/{{ machine_type }}AS",
+                "{{ depends_diag_storage }}",
 {% for interface in instance.interfaces %}
                 "[resourceId('Microsoft.Network/networkInterfaces', '{{ instance.hostname }}nic{{ loop.index }}')]"{% if not loop.last %},{% endif %}
 {% endfor %}
