@@ -32,23 +32,17 @@
     enablerepo: epel,pritunl
 
 # enable Firewall ports for Pritunl and Openvpn
-- firewalld:
-    service: http
+- name: "Enabling firewalld rules"
+  firewalld:
+    service: "{{ item }}"
     permanent: true
     state: enabled
-
-- firewalld:
-    service: https
-    permanent: true
-    state: enabled
-
-- firewalld:
-    service: openvpn
-    permanent: true
-    state: enabled
-
-- name: reload firewalld to pull in new rules.
-  service: name=firewalld state=restarted
+  notify:
+    - reload firewalld
+  with_items:
+    - http
+    - https
+    - openvpn
 
 - name: Copy pritunl config file.
   template:

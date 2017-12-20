@@ -1,0 +1,4 @@
+- hosts: ep
+  roles:
+     - ansible-role-pritunl
+  become: true
