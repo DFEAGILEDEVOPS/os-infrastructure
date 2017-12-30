@@ -33,7 +33,6 @@ etcd
 
 openshift_disable_check=disk_availability,docker_storage,docker_image_availability
 
-openshift_master_cluster_public_hostname=os-app-non-prod.uksouth.cloudapp.azure.com
 
 ansible_become=true
 openshift_deployment_type=origin
@@ -43,26 +42,26 @@ openshift_clock_enabled=true
 os_sdn_network_plugin_name='redhat/openshift-ovs-multitenant'
 
 openshift_master_cluster_method=native
-openshift_master_cluster_hostname=app.4xauinxnfpwe3ojzckfgkzbvjc.zx.internal.cloudapp.net
-#openshift_master_cluster_public_hostname=app.4xauinxnfpwe3ojzckfgkzbvjc.zx.internal.cloudapp.net
+openshift_master_cluster_hostname=os-app-non-prod.uksouth.cloudapp.azure.com
+openshift_master_cluster_public_hostname=os-app-non-prod.uksouth.cloudapp.azure.com
 
 openshift_master_default_subdomain=4lceuyc4wufudb5iqljp0dyp4b.zx.internal.cloudapp.net
 openshift_master_identity_providers=[{'name': 'htpasswd_auth', 'login': 'true', 'challenge': 'true', 'kind': 'HTPasswdPasswordIdentityProvider', 'filename': '/etc/origin/master/htpasswd'}]
 
 [masters]
-aom01.4xauinxnfpwe3ojzckfgkzbvjc.zx.internal.cloudapp.net openshift_hostname=aom01.4xauinxnfpwe3ojzckfgkzbvjc.zx.internal.cloudapp.net openshift_public_hostname=aom01.4xauinxnfpwe3ojzckfgkzbvjc.zx.internal.cloudapp.net ansible_host=10.100.1.21
-aom02.4xauinxnfpwe3ojzckfgkzbvjc.zx.internal.cloudapp.net openshift_hostname=aom02.4xauinxnfpwe3ojzckfgkzbvjc.zx.internal.cloudapp.net openshift_public_hostname=aom02.4xauinxnfpwe3ojzckfgkzbvjc.zx.internal.cloudapp.net ansible_host=10.100.1.22
-aom03.4xauinxnfpwe3ojzckfgkzbvjc.zx.internal.cloudapp.net openshift_hostname=aom02.4xauinxnfpwe3ojzckfgkzbvjc.zx.internal.cloudapp.net openshift_public_hostname=aom03.4xauinxnfpwe3ojzckfgkzbvjc.zx.internal.cloudapp.net ansible_host=10.100.1.23
+aom01.prtmgmtyupoufpgec13xjh1mqf.zx.internal.cloudapp.net openshift_hostname=aom01.prtmgmtyupoufpgec13xjh1mqf.zx.internal.cloudapp.net openshift_public_hostname=aom01.prtmgmtyupoufpgec13xjh1mqf.zx.internal.cloudapp.net ansible_host=10.100.1.21
+aom02.prtmgmtyupoufpgec13xjh1mqf.zx.internal.cloudapp.net openshift_hostname=aom02.prtmgmtyupoufpgec13xjh1mqf.zx.internal.cloudapp.net openshift_public_hostname=aom02.prtmgmtyupoufpgec13xjh1mqf.zx.internal.cloudapp.net ansible_host=10.100.1.22
+aom03.prtmgmtyupoufpgec13xjh1mqf.zx.internal.cloudapp.net openshift_hostname=aom02.prtmgmtyupoufpgec13xjh1mqf.zx.internal.cloudapp.net openshift_public_hostname=aom03.prtmgmtyupoufpgec13xjh1mqf.zx.internal.cloudapp.net ansible_host=10.100.1.23
 
 [etcd]
-aom01.4xauinxnfpwe3ojzckfgkzbvjc.zx.internal.cloudapp.net ansible_host=10.100.1.21
-aom02.4xauinxnfpwe3ojzckfgkzbvjc.zx.internal.cloudapp.net ansible_host=10.100.1.22
-aom03.4xauinxnfpwe3ojzckfgkzbvjc.zx.internal.cloudapp.net ansible_host=10.100.1.23
+aom01.prtmgmtyupoufpgec13xjh1mqf.zx.internal.cloudapp.net ansible_host=10.100.1.21
+aom02.prtmgmtyupoufpgec13xjh1mqf.zx.internal.cloudapp.net ansible_host=10.100.1.22
+aom03.prtmgmtyupoufpgec13xjh1mqf.zx.internal.cloudapp.net ansible_host=10.100.1.23
 
 [nodes]
-aom01.4xauinxnfpwe3ojzckfgkzbvjc.zx.internal.cloudapp.net ansible_host=10.100.1.21 openshift_hostname=aom01.4xauinxnfpwe3ojzckfgkzbvjc.zx.internal.cloudapp.net openshift_public_hostname=aom01.4xauinxnfpwe3ojzckfgkzbvjc.zx.internal.cloudapp.net openshift_node_labels="{'region': 'infra', 'zone': 'region1'}"
-aom02.4xauinxnfpwe3ojzckfgkzbvjc.zx.internal.cloudapp.net ansible_host=10.100.1.22 openshift_hostname=aom02.4xauinxnfpwe3ojzckfgkzbvjc.zx.internal.cloudapp.net openshift_public_hostname=aom02.4xauinxnfpwe3ojzckfgkzbvjc.zx.internal.cloudapp.net openshift_node_labels="{'region': 'infra', 'zone': 'region2'}"
-aom03.4xauinxnfpwe3ojzckfgkzbvjc.zx.internal.cloudapp.net ansible_host=10.100.1.23 openshift_hostname=aom03.4xauinxnfpwe3ojzckfgkzbvjc.zx.internal.cloudapp.net openshift_public_hostname=aom03.4xauinxnfpwe3ojzckfgkzbvjc.zx.internal.cloudapp.net openshift_node_labels="{'region': 'infra', 'zone': 'region1'}"
+aom01.prtmgmtyupoufpgec13xjh1mqf.zx.internal.cloudapp.net ansible_host=10.100.1.21 openshift_hostname=aom01.prtmgmtyupoufpgec13xjh1mqf.zx.internal.cloudapp.net openshift_public_hostname=aom01.prtmgmtyupoufpgec13xjh1mqf.zx.internal.cloudapp.net openshift_node_labels="{'region': 'infra', 'zone': 'region1'}"
+aom02.prtmgmtyupoufpgec13xjh1mqf.zx.internal.cloudapp.net ansible_host=10.100.1.22 openshift_hostname=aom02.prtmgmtyupoufpgec13xjh1mqf.zx.internal.cloudapp.net openshift_public_hostname=aom02.prtmgmtyupoufpgec13xjh1mqf.zx.internal.cloudapp.net openshift_node_labels="{'region': 'infra', 'zone': 'region2'}"
+aom03.prtmgmtyupoufpgec13xjh1mqf.zx.internal.cloudapp.net ansible_host=10.100.1.23 openshift_hostname=aom03.prtmgmtyupoufpgec13xjh1mqf.zx.internal.cloudapp.net openshift_public_hostname=aom03.prtmgmtyupoufpgec13xjh1mqf.zx.internal.cloudapp.net openshift_node_labels="{'region': 'infra', 'zone': 'region1'}"
 
-aon01.4xauinxnfpwe3ojzckfgkzbvjc.zx.internal.cloudapp.net ansible_host=10.100.1.51 openshift_hostname=aon01.4xauinxnfpwe3ojzckfgkzbvjc.zx.internal.cloudapp.net openshift_node_labels="{'region': 'primary', 'zone': 'region1'}"
-aon02.4xauinxnfpwe3ojzckfgkzbvjc.zx.internal.cloudapp.net ansible_host=10.100.1.52 openshift_hostname=aon02.4xauinxnfpwe3ojzckfgkzbvjc.zx.internal.cloudapp.net openshift_node_labels="{'region': 'primary', 'zone': 'region2'}"
+aon01.prtmgmtyupoufpgec13xjh1mqf.zx.internal.cloudapp.net ansible_host=10.100.1.51 openshift_hostname=aon01.prtmgmtyupoufpgec13xjh1mqf.zx.internal.cloudapp.net openshift_node_labels="{'region': 'primary', 'zone': 'region1'}"
+aon02.prtmgmtyupoufpgec13xjh1mqf.zx.internal.cloudapp.net ansible_host=10.100.1.52 openshift_hostname=aon02.prtmgmtyupoufpgec13xjh1mqf.zx.internal.cloudapp.net openshift_node_labels="{'region': 'primary', 'zone': 'region2'}"

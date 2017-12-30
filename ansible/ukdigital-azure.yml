@@ -28,6 +28,7 @@
         size: Standard_DS1_v2
         os: rhel74
         load_balancer: epLB
+        disk_size_gb: 0
         instances:
           - hostname: "{{ azure_hostname_prefix }}ep01"
             interfaces:
@@ -35,16 +36,18 @@
                 ipv4: "10.100.254.4"
                 public_ip: true
                 dns_name: "os-ep01-{{env}}"
-          - hostname: "{{ azure_hostname_prefix }}ep02"
-            interfaces:
-              - subnet: dmz1subnet
-                ipv4: "10.100.254.5"
-                public_ip: true
-                dns_name: "os-ep02-{{env}}"
-        disk_size_gb: 0
+# TODO: Clustering mongoDB for vpn clustering to work....
+#          - hostname: "{{ azure_hostname_prefix }}ep02"
+#            interfaces:
+#              - subnet: dmz1subnet
+#                ipv4: "10.100.254.5"
+#                public_ip: true
+#                dns_name: "os-ep02-{{env}}"
+
 #      ns:
 #        size: Standard_DS1_v2
 #        os: rhel74
+#        disk_size_gb: 5
 #        instances:
 #          - hostname: "{{ azure_hostname_prefix }}ns01"
 #            interfaces:
@@ -56,10 +59,11 @@
 #              - subnet: dmz1subnet
 #                ipv4: "10.100.254.22"
 #                public_ip: false
-#        disk_size_gb: 5
+#
 #      alb:
 #        size: Standard_DS1_v2
 #        os: rhel74
+#        disk_size_gb: 5
 #        instances:
 #          - hostname: "{{ azure_hostname_prefix }}alb01"
 #            interfaces:
@@ -71,11 +75,12 @@
 #              - subnet: app1subnet
 #                ipv4: "10.100.1.6"
 #                public_ip: true
-#        disk_size_gb: 5
+#
       aom:
         size: Standard_E2s_v3
         os: rhel74
         load_balancer: appLB
+        disk_size_gb: 60
         instances:
           - hostname: "{{ azure_hostname_prefix }}aom01"
             interfaces:
@@ -92,10 +97,11 @@
               - subnet: app1subnet
                 ipv4: "10.100.1.23"
                 public_ip: false
-        disk_size_gb: 60
+
       aon:
         size: Standard_E2s_v3
         os: rhel74
+        disk_size_gb: 60
         instances:
           - hostname: "{{ azure_hostname_prefix }}aon01"
             interfaces:
@@ -107,10 +113,11 @@
               - subnet: app1subnet
                 ipv4: "10.100.1.52"
                 public_ip: false
-        disk_size_gb: 60
+
       ipa:
         size: Standard_DS1_v2
         os: rhel74
+        disk_size_gb: 0
         instances:
           - hostname: "{{ azure_hostname_prefix }}ipa01"
             interfaces:
@@ -122,10 +129,11 @@
               - subnet: mgmt1subnet
                 ipv4: "10.100.100.12"
                 public_ip: false
-        disk_size_gb: 0
+
       mtr:
         size: Standard_DS1_v2
         os: rhel74
+        disk_size_gb: 1024
         instances:
           - hostname: "{{ azure_hostname_prefix }}mtr01"
             interfaces:
@@ -135,18 +143,20 @@
               - subnet: mtr1subnet
                 ipv4: "172.17.1.4"
                 public_ip: false
-          - hostname: "{{ azure_hostname_prefix }}mtr02"
-            interfaces:
-              - subnet: mgmt1subnet
-                ipv4: "10.100.100.16"
-                public_ip: false
-              - subnet: mtr1subnet
-                ipv4: "172.17.1.5"
-                public_ip: false
-        disk_size_gb: 1024
+# TODO: Cluster up Coscale for this
+#          - hostname: "{{ azure_hostname_prefix }}mtr02"
+#            interfaces:
+#              - subnet: mgmt1subnet
+#                ipv4: "10.100.100.16"
+#                public_ip: false
+#              - subnet: mtr1subnet
+#                ipv4: "172.17.1.5"
+#                public_ip: false
+
 #      slb:
 #        size: Standard_DS1_v2
 #        os: rhel74
+#        disk_size_gb: 5
 #        instances:
 #          - hostname: "{{ azure_hostname_prefix }}slb01"
 #            interfaces:
@@ -158,11 +168,12 @@
 #              - subnet: svc1subnet
 #                ipv4: "10.100.20.6"
 #                public_ip: true
-#        disk_size_gb: 5
+
 #      som:
 #        size: Standard_E2s_v3
 #        os: rhel74
 #        load_balancer: svcLB
+#        disk_size_gb: 60
 #        instances:
 #          - hostname: "{{ azure_hostname_prefix }}som01"
 #            interfaces:
@@ -179,10 +190,11 @@
 #              - subnet: svc1subnet
 #                ipv4: "10.100.20.23"
 #                public_ip: false
-#        disk_size_gb: 60
+
 #      son:
 #        size: Standard_E2s_v3
 #        os: rhel74
+#        disk_size_gb: 60
 #        instances:
 #          - hostname: "{{ azure_hostname_prefix }}son01"
 #            interfaces:
@@ -194,7 +206,7 @@
 #              - subnet: svc1subnet
 #                ipv4: "10.100.20.52"
 #                public_ip: false
-#        disk_size_gb: 60
+
 
     azure_ssh_keys:
       - path: "/home/cloud-user/.ssh/authorized_keys"

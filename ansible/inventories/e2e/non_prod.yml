@@ -24,20 +24,65 @@
 
 all:
   vars:
-    ansible_ssh_common_args: '-o ProxyCommand="ssh -W %h:%p -q cloud-user@51.140.181.6"'
+    ansible_ssh_common_args: '-o ProxyCommand="ssh -W %h:%p -q cloud-user@os-ep01-non-prod.uksouth.cloudapp.azure.com"'
     static_inventory: true
   children:
     ep:
       hosts:
-        ukdigitalep01:
+        ep01:
           ansible_host: 10.100.254.4
-        ukdigitalep02:
-          ansible_host: 10.100.254.5
     ipa:
       hosts:
-        ukdigitalipa01:
+        ipa01:
           ansible_host: 10.100.100.11
           iparole: master
-        ukdigitalipa02:
+        ipa02:
           ansible_host: 10.100.100.12
           iparole: slave
+    openshift:
+      vars:
+        openshift_disable_check:
+          - disk_availability
+          - docker_storage
+          - docker_image_availability
+        ansible_become: true
+        openshift_deployment_type: origin
+        deployment_type: origin
+        containerized: true
+        openshift_clock_enabled: true
+        openshift_master_cluster_method: native
+        openshift_master_cluster_hostname: 'os-app-non-prod.uksouth.cloudapp.azure.com'
+        openshift_master_cluster_public_hostname: 'os-app-non-prod.uksouth.cloudapp.azure.com'
+
+#        openshift_master_default_subdomain: 'mxrdnfpmxjeevivkjr2dmh2nmg.zx.internal.cloudapp.net'
+        openshift_master_default_subdomain: 'os-app-non-prod.uksouth.cloudapp.azure.com'
+        openshift_master_identity_providers:
+          - name: htpasswd_auth
+            login: true
+            challenge: true
+            kind: HTPasswdPasswordIdentityProvider
+            filename: /etc/origin/master/htpasswd
+
+      children:
+        masters:
+          hosts:
+            aom01:
+              ansible_host: 10.100.1.21
+            aom02:
+              ansible_host: 10.100.1.22
+            aom03:
+              ansible_host: 10.100.1.23
+        nodes:
+          hosts:
+            aon01:
+              ansible_host: 10.100.1.51
+            aon02:
+              ansible_host: 10.100.1.52
+        etcd:
+          hosts:
+            aom01:
+              ansible_host: 10.100.1.21
+            aom02:
+              ansible_host: 10.100.1.22
+            aom03:
+              ansible_host: 10.100.1.23
