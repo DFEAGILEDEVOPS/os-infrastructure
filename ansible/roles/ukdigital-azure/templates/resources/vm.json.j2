@@ -6,7 +6,26 @@
             "apiVersion": "2017-06-01",
             "location": "{{ location }}",
             "properties": {
-                "securityRules": {{ nsg_spec | to_nice_json(indent=4) }}
+                "securityRules": [
+{% for nsg_access, nsg_directions in nsg_spec.items() %}
+{% for nsg_direction, nsg_protocols in nsg_directions.items() %}
+{% for nsg_protocol, nsg_rules in nsg_protocols.items() %}
+{% for nsg_rule in nsg_rules %}
+                  {
+                    "protocol": "{{ nsg_protocol }}",
+                    "sourcePortRange": "{{ nsg_rule.sourcePortRange }}",
+                    "destinationPortRange": "{{ nsg_rule.destinationPortRange }}",
+                    "sourceAddressPrefix": "{{ nsg_rule.sourceAddressPrefix }}",
+                    "destinationAddressPrefix": "{{ nsg_rule.destinationAddressPrefix }}",
+                    "access": "{{ nsg_access }}",
+                    "priority": 850,
+                    "direction": "{{ nsg_direction }}"
+                  }
+{% endfor %}
+{% endfor %}
+{% endfor %}
+{% endfor %}
+                ]
             }
         },
 

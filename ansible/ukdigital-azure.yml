@@ -76,73 +76,73 @@
 #                ipv4: "10.100.1.6"
 #                public_ip: true
 #
-      aom:
-        size: Standard_E2s_v3
-        os: rhel74
-        load_balancer: appLB
-        disk_size_gb: 60
-        instances:
-          - hostname: "{{ azure_hostname_prefix }}aom01"
-            interfaces:
-              - subnet: app1subnet
-                ipv4: "10.100.1.21"
-                public_ip: false
-          - hostname: "{{ azure_hostname_prefix }}aom02"
-            interfaces:
-              - subnet: app1subnet
-                ipv4: "10.100.1.22"
-                public_ip: false
-          - hostname: "{{ azure_hostname_prefix }}aom03"
-            interfaces:
-              - subnet: app1subnet
-                ipv4: "10.100.1.23"
-                public_ip: false
+#      aom:
+#        size: Standard_E2s_v3
+#        os: rhel74
+#        load_balancer: appLB
+#        disk_size_gb: 60
+#        instances:
+#          - hostname: "{{ azure_hostname_prefix }}aom01"
+#            interfaces:
+#              - subnet: app1subnet
+#                ipv4: "10.100.1.21"
+#                public_ip: false
+#          - hostname: "{{ azure_hostname_prefix }}aom02"
+#            interfaces:
+#              - subnet: app1subnet
+#                ipv4: "10.100.1.22"
+#                public_ip: false
+#          - hostname: "{{ azure_hostname_prefix }}aom03"
+#            interfaces:
+#              - subnet: app1subnet
+#                ipv4: "10.100.1.23"
+#                public_ip: false
+#
+#      aon:
+#        size: Standard_E2s_v3
+#        os: rhel74
+#        disk_size_gb: 60
+#        instances:
+#          - hostname: "{{ azure_hostname_prefix }}aon01"
+#            interfaces:
+#              - subnet: app1subnet
+#                ipv4: "10.100.1.51"
+#                public_ip: false
+#          - hostname: "{{ azure_hostname_prefix }}aon02"
+#            interfaces:
+#              - subnet: app1subnet
+#                ipv4: "10.100.1.52"
+#                public_ip: false
 
-      aon:
-        size: Standard_E2s_v3
-        os: rhel74
-        disk_size_gb: 60
-        instances:
-          - hostname: "{{ azure_hostname_prefix }}aon01"
-            interfaces:
-              - subnet: app1subnet
-                ipv4: "10.100.1.51"
-                public_ip: false
-          - hostname: "{{ azure_hostname_prefix }}aon02"
-            interfaces:
-              - subnet: app1subnet
-                ipv4: "10.100.1.52"
-                public_ip: false
+#      ipa:
+#        size: Standard_DS1_v2
+#        os: rhel74
+#        disk_size_gb: 0
+#        instances:
+#          - hostname: "{{ azure_hostname_prefix }}ipa01"
+#            interfaces:
+#              - subnet: mgmt1subnet
+#                ipv4: "10.100.100.11"
+#                public_ip: false
+#          - hostname: "{{ azure_hostname_prefix }}ipa02"
+#            interfaces:
+#              - subnet: mgmt1subnet
+#                ipv4: "10.100.100.12"
+#                public_ip: false
 
-      ipa:
-        size: Standard_DS1_v2
-        os: rhel74
-        disk_size_gb: 0
-        instances:
-          - hostname: "{{ azure_hostname_prefix }}ipa01"
-            interfaces:
-              - subnet: mgmt1subnet
-                ipv4: "10.100.100.11"
-                public_ip: false
-          - hostname: "{{ azure_hostname_prefix }}ipa02"
-            interfaces:
-              - subnet: mgmt1subnet
-                ipv4: "10.100.100.12"
-                public_ip: false
-
-      mtr:
-        size: Standard_DS1_v2
-        os: rhel74
-        disk_size_gb: 1024
-        instances:
-          - hostname: "{{ azure_hostname_prefix }}mtr01"
-            interfaces:
-              - subnet: mgmt1subnet
-                ipv4: "10.100.100.15"
-                public_ip: false
-              - subnet: mtr1subnet
-                ipv4: "172.17.1.4"
-                public_ip: false
+#      mtr:
+#        size: Standard_DS1_v2
+#        os: rhel74
+#        disk_size_gb: 1024
+#        instances:
+#          - hostname: "{{ azure_hostname_prefix }}mtr01"
+#            interfaces:
+#              - subnet: mgmt1subnet
+#                ipv4: "10.100.100.15"
+#                public_ip: false
+#              - subnet: mtr1subnet
+#                ipv4: "172.17.1.4"
+#                public_ip: false
 # TODO: Cluster up Coscale for this
 #          - hostname: "{{ azure_hostname_prefix }}mtr02"
 #            interfaces:
